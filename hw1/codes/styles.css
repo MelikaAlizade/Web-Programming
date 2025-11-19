@@ -627,16 +627,6 @@ button.pill:hover {
     box-shadow: 0 6px 25px rgba(0, 243, 255, 0.7);
 }
 
-.pill.secondary {
-    background: transparent;
-    border: 2px solid var(--neon-cyan);
-    color: var(--neon-cyan);
-}
-
-.pill.secondary:hover {
-    background: rgba(0, 243, 255, 0.1);
-}
-
 /* Modal Styles */
 .modal-overlay {
     position: fixed;
@@ -676,7 +666,7 @@ button.pill:hover {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan), var(--neon-purple));
+    /* background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan), var(--neon-purple)); */
     box-shadow: 0 0 20px var(--neon-cyan);
 }
 
@@ -902,6 +892,160 @@ button.pill:hover {
     justify-content: center;
 }
 
+/* Daily Note Modal Styles */
+.existing-notes-section {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(0, 243, 255, 0.3);
+}
+
+.existing-notes-section h4 {
+    color: var(--neon-cyan);
+    margin-bottom: 15px;
+    font-size: 18px;
+    text-shadow: 0 0 8px var(--neon-cyan);
+}
+
+.existing-note-item {
+    background: #2a2a34;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.existing-note-item:hover {
+    background: #33333c;
+    border-color: var(--neon-cyan);
+}
+
+.existing-note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.existing-note-title {
+    font-weight: bold;
+    color: var(--text-color);
+    font-size: 16px;
+}
+
+.existing-note-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.existing-note-action-btn {
+    background: transparent;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    transition: all 0.3s ease;
+}
+
+.existing-note-edit-btn {
+    border: 1px solid var(--neon-cyan);
+    color: var(--neon-cyan);
+}
+
+.existing-note-edit-btn:hover {
+    background: rgba(0, 243, 255, 0.1);
+}
+
+.existing-note-delete-btn {
+    border: 1px solid #ff4444;
+    color: #ff4444;
+}
+
+.existing-note-delete-btn:hover {
+    background: rgba(255, 68, 68, 0.1);
+}
+
+.existing-note-content {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.empty-notes-message {
+    text-align: center;
+    color: var(--muted);
+    font-style: italic;
+    padding: 20px;
+}
+
+/* Calendar day with notes indicator enhancement */
+.cal-day.has-notes {
+    position: relative;
+}
+
+.cal-day.has-notes::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--neon-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 5px var(--neon-cyan);
+}
+
+/* Calendar enhancements */
+.cal-day.today {
+    background: linear-gradient(135deg, rgba(0, 243, 255, 0.3), rgba(157, 0, 255, 0.3)) !important;
+    border-color: var(--neon-cyan) !important;
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.5) !important;
+    font-weight: bold;
+}
+
+.cal-day.selected {
+    background: linear-gradient(135deg, rgba(0, 255, 157, 0.3), rgba(0, 243, 255, 0.3)) !important;
+    border-color: var(--neon-green) !important;
+    box-shadow: 0 0 15px rgba(0, 255, 157, 0.5) !important;
+    font-weight: bold;
+}
+
+.cal-day.has-notes::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--neon-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 5px var(--neon-cyan);
+}
+
+/* Empty notes message */
+.empty-notes {
+    text-align: center;
+    color: var(--muted);
+    padding: 40px 20px;
+    font-style: italic;
+}
+
+/* Calendar navigation enhancements */
+.cal-nav:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cal-nav:disabled:hover {
+    background: none;
+    transform: none;
+}
+
+
 button.mini {
     background: #2a2a34;
     color: #eee;
@@ -937,6 +1081,15 @@ footer {
 
 footer p {
     text-shadow: 0 0 8px rgba(0, 243, 255, 0.5);
+}
+
+.footer-link {
+    color: var(--neon-cyan);
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
 }
 
 /* Responsiveness */

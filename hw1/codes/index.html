@@ -33,7 +33,7 @@
                     <button id="save-note" class="pill primary">افزودن یادداشت</button>
                 </div>
                 <div class="notes-list" id="notes-list">
-                    <!-- Example note structure -->
+                    <!-- Example note -->
                     <div class="note-item" data-id="1">
                         <div class="note-title">خوش آمدید</div>
                         <div class="note-content">به دشتیار خوش آمدید! این یک یادداشت نمونه است.</div>
@@ -109,8 +109,6 @@
         </main>
 
         <!-- RIGHT COLUMN (Calendar) -->
-
-        <!-- RIGHT COLUMN (Calendar) -->
         <aside class="col right">
             <div class="card calendar-card">
                 <div class="cal-header">
@@ -122,7 +120,7 @@
                     <button id="cal-next" class="cal-nav">›</button>
                 </div>
 
-                <!-- Week days header - Separate from calendar grid -->
+                <!-- Week days header -->
                 <div class="week-days">
                     <div class="week-day">ش</div>
                     <div class="week-day">ی</div>
@@ -176,7 +174,7 @@
         </aside>
     </div>
 
-    <!-- Modal for adding new quick link -->
+    <!-- Modal for adding quick link -->
     <div class="modal-overlay" id="add-link-modal">
         <div class="modal-card">
             <div class="modal-header">
@@ -209,7 +207,6 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="pill secondary" id="cancel-add">انصراف</button>
                 <button class="pill primary" id="save-link">افزودن لینک</button>
             </div>
         </div>
@@ -238,9 +235,40 @@
         </div>
     </div>
 
+    <!-- Modal for adding daily notes -->
+    <div class="modal-overlay" id="daily-note-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="daily-note-title">افزودن یادداشت برای <span id="selected-date-display"></span></h3>
+                <button class="close-modal" id="close-daily-modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="daily-note-title-input">عنوان یادداشت</label>
+                    <input type="text" id="daily-note-title-input" placeholder="عنوان یادداشت..." />
+                </div>
+                <div class="form-group">
+                    <label for="daily-note-content">متن یادداشت</label>
+                    <textarea id="daily-note-content" placeholder="متن یادداشت..." rows="6"></textarea>
+                </div>
+
+                <!-- Display existing notes for this date -->
+                <div class="existing-notes-section">
+                    <h4>یادداشت‌های این تاریخ</h4>
+                    <div class="existing-notes-list" id="existing-notes-list">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="pill primary" id="save-daily-note">افزودن یادداشت</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer>
-        <p> طراحی و توسعه ملیکا علیزاده</p>
+        طراحی و توسعه
+        <a href="https://github.com/melikaalizade" class="footer-link" target="_blank">ملیکا علیزاده</a>
     </footer>
 
     <script src="app.js"></script>
