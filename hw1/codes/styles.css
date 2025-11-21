@@ -9,7 +9,6 @@
     --bg-card: #1a1a24;
     --text-color: #ffffff;
     --muted: #8a8a9c;
-    --radius: 16px;
     font-family: "Tahoma", "Vazir", sans-serif;
     color-scheme: dark;
 }
@@ -28,12 +27,24 @@ body {
     font-size: 16px;
     line-height: 1.6;
     background: radial-gradient(circle at top right, #1a0033, #0a0a12);
-    min-height: 100vh;
     overflow-x: hidden;
     width: 100%;
 }
 
-/* Neon Grid Background */
+.layout {
+    display: grid;
+    grid-template-columns: minmax(300px, 400px) minmax(400px, 1fr) minmax(300px, 400px);
+    gap: 25px;
+    padding: 25px 5%;
+    align-items: start;
+    max-width: 2000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    min-height: calc(100vh - 200px);
+    width: 100%;
+}
+
 .neon-grid {
     position: fixed;
     top: 0;
@@ -53,11 +64,11 @@ header {
     padding: 20px 5%;
     display: flex;
     justify-content: flex-start;
+    position: relative;
     background: rgba(17, 17, 26, 0.85);
     box-shadow: 0 2px 30px rgba(0, 243, 255, 0.3);
     backdrop-filter: blur(15px);
     border-bottom: 1px solid rgba(0, 243, 255, 0.4);
-    position: relative;
     z-index: 10;
     width: 100%;
 }
@@ -67,7 +78,6 @@ header {
     font-size: 32px;
     font-weight: 900;
     background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan), var(--neon-yellow));
-    -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     text-shadow: 0 0 15px rgba(0, 243, 255, 0.7);
@@ -88,25 +98,10 @@ header {
     box-shadow: 0 0 10px var(--neon-cyan);
 }
 
-/* Layout */
-.layout {
-    display: grid;
-    grid-template-columns: minmax(300px, 400px) minmax(400px, 1fr) minmax(300px, 400px);
-    gap: 25px;
-    padding: 25px 5%;
-    align-items: start;
-    max-width: 2000px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-    min-height: calc(100vh - 200px);
-    width: 100%;
-}
-
 /* Cards */
 .card {
     background: var(--bg-card);
-    border-radius: var(--radius);
+    border-radius: 16px;
     padding: 20px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
     border: 1px solid rgba(0, 243, 255, 0.3);
@@ -142,13 +137,14 @@ header {
 .search-box-wrapper {
     display: flex;
     gap: 15px;
-    align-items: stretch;
     height: auto;
     min-height: 60px;
+    align-items: stretch;
     flex-wrap: wrap;
 }
 
 .search-box {
+    flex: 1;
     display: flex;
     align-items: center;
     background: var(--bg-panel);
@@ -156,7 +152,6 @@ header {
     border-radius: 30px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
     border: 1px solid rgba(0, 243, 255, 0.4);
-    flex: 1;
     transition: all 0.4s ease;
     position: relative;
     overflow: hidden;
@@ -164,25 +159,9 @@ header {
     min-width: 200px;
 }
 
-.search-box::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(0, 243, 255, 0.1), rgba(157, 0, 255, 0.1));
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
 .search-box:focus-within {
     border-color: var(--neon-cyan);
     box-shadow: 0 6px 25px rgba(0, 243, 255, 0.5);
-}
-
-.search-box:focus-within::before {
-    opacity: 1;
 }
 
 .search-box input {
@@ -221,21 +200,6 @@ header {
     flex-shrink: 0;
 }
 
-.search-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: left 0.6s;
-}
-
-.search-btn:hover::before {
-    left: 100%;
-}
-
 .search-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 25px rgba(0, 243, 255, 0.7);
@@ -246,7 +210,6 @@ header {
     border: none;
     font-size: 20px;
     color: #ccc;
-    cursor: pointer;
     padding: 6px;
     border-radius: 50%;
     transition: all 0.3s ease;
@@ -257,17 +220,10 @@ header {
     flex-shrink: 0;
 }
 
-.icon-btn:hover {
-    background: rgba(0, 243, 255, 0.2);
-    color: var(--neon-cyan);
-    text-shadow: 0 0 10px var(--neon-cyan);
-    transform: scale(1.1);
-}
-
 /* Quick Access Container */
 .quick-access-container {
     background: var(--bg-card);
-    border-radius: var(--radius);
+    border-radius: 16px;
     padding: 28px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
     border: 1px solid rgba(0, 243, 255, 0.3);
@@ -315,13 +271,13 @@ header {
     cursor: pointer;
     transition: all 0.4s ease;
     border: 1px solid rgba(0, 243, 255, 0.3);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
     min-height: 70px;
     overflow: hidden;
 }
@@ -412,7 +368,7 @@ header {
     transform: scale(1.1);
 }
 
-/* Notes Panel - Updated with action buttons */
+/* Notes Section*/
 .notes-card {
     display: flex;
     flex-direction: column;
@@ -420,7 +376,6 @@ header {
     height: 100%;
     min-height: 500px;
     width: 100%;
-    /* min-height: 550px; */
 }
 
 .panel-top h4 {
@@ -492,8 +447,8 @@ header {
 /* Note Action Buttons */
 .note-actions {
     display: flex;
-    gap: 10px;
     justify-content: flex-end;
+    gap: 10px;
     margin-top: 10px;
     padding-top: 10px;
     border-top: 1px solid rgba(0, 243, 255, 0.2);
@@ -511,9 +466,9 @@ header {
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
     min-width: 70px;
-    justify-content: center;
 }
 
 .note-btn:hover {
@@ -555,14 +510,14 @@ header {
 
 .note-inputs input,
 .note-inputs textarea {
+    font-family: "Vazirmatn", sans-serif;
     border: none;
+    border: 1px solid rgba(0, 243, 255, 0.3);
     background: #2a2a34;
     color: #fff;
     border-radius: 10px;
     padding: 14px 18px;
     font-size: 15px;
-    border: 1px solid rgba(0, 243, 255, 0.3);
-    font-family: "Vazirmatn", sans-serif;
     resize: vertical;
     transition: all 0.4s ease;
 }
@@ -602,8 +557,8 @@ button.pill {
     font-weight: 700;
     transition: all 0.4s ease;
     white-space: nowrap;
-    box-shadow: 0 4px 20px rgba(0, 243, 255, 0.5);
     position: relative;
+    box-shadow: 0 4px 20px rgba(0, 243, 255, 0.5);
     overflow: hidden;
 }
 
@@ -644,19 +599,17 @@ button.pill:hover {
 
 .modal-overlay.active {
     display: flex;
-    animation: fadeIn 0.3s ease;
 }
 
 .modal-card {
     background: var(--bg-card);
-    border-radius: var(--radius);
+    border-radius: 16px;
     padding: 30px;
     box-shadow: 0 20px 60px rgba(0, 243, 255, 0.3);
     border: 2px solid var(--neon-cyan);
     width: 90%;
     max-width: 500px;
     position: relative;
-    animation: slideUp 0.3s ease;
 }
 
 .modal-card::before {
@@ -666,7 +619,6 @@ button.pill:hover {
     left: 0;
     right: 0;
     height: 3px;
-    /* background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan), var(--neon-purple)); */
     box-shadow: 0 0 20px var(--neon-cyan);
 }
 
@@ -684,7 +636,6 @@ button.pill:hover {
     font-weight: 700;
     color: var(--neon-cyan);
     text-shadow: 0 0 10px var(--neon-cyan);
-    margin: 0;
 }
 
 .close-modal {
@@ -727,6 +678,7 @@ button.pill:hover {
 .form-group input,
 .form-group select,
 .form-group textarea {
+    font-family: "Vazirmatn", sans-serif;
     width: 100%;
     background: #2a2a34;
     border: 1px solid rgba(0, 243, 255, 0.3);
@@ -734,7 +686,6 @@ button.pill:hover {
     padding: 14px 18px;
     color: #fff;
     font-size: 16px;
-    font-family: "Vazirmatn", sans-serif;
     transition: all 0.3s ease;
     resize: vertical;
 }
@@ -754,7 +705,7 @@ button.pill:hover {
     justify-content: flex-end;
 }
 
-/* Calendar - Updated for week days positioning */
+/* Calendar Section*/
 .calendar-card {
     height: 100%;
 }
@@ -808,12 +759,12 @@ button.pill:hover {
 }
 
 .week-day {
-    text-align: center;
     color: var(--neon-cyan);
+    text-shadow: 0 0 8px var(--neon-cyan);
     font-weight: 700;
     font-size: 14px;
-    text-shadow: 0 0 8px var(--neon-cyan);
     padding: 8px 0;
+    text-align: center;
     background: transparent;
     border: none;
 }
@@ -824,7 +775,7 @@ button.pill:hover {
     gap: 10px;
 }
 
-/* Calendar days */
+/* Days */
 .cal-day {
     background: #22222c;
     border-radius: 12px;
@@ -850,8 +801,8 @@ button.pill:hover {
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg, rgba(0, 243, 255, 0.15), rgba(157, 0, 255, 0.15));
-    opacity: 0;
     transition: opacity 0.4s ease;
+    opacity: 0;
 }
 
 .cal-day:hover::before {
@@ -865,7 +816,7 @@ button.pill:hover {
     box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
 }
 
-/* Empty calendar cells */
+/* Empty calendar */
 .cal-empty {
     background: transparent;
     border: none;
@@ -887,9 +838,9 @@ button.pill:hover {
 .cal-actions {
     margin-top: 20px;
     text-align: center;
+    justify-content: center;
     display: flex;
     gap: 10px;
-    justify-content: center;
 }
 
 /* Daily Note Modal Styles */
@@ -980,7 +931,7 @@ button.pill:hover {
     padding: 20px;
 }
 
-/* Calendar day with notes indicator enhancement */
+/* Calendar day with notes */
 .cal-day.has-notes {
     position: relative;
 }
@@ -994,11 +945,10 @@ button.pill:hover {
     width: 6px;
     height: 6px;
     background: var(--neon-cyan);
-    border-radius: 50%;
     box-shadow: 0 0 5px var(--neon-cyan);
+    border-radius: 50%;
 }
 
-/* Calendar enhancements */
 .cal-day.today {
     background: linear-gradient(135deg, rgba(0, 243, 255, 0.3), rgba(157, 0, 255, 0.3)) !important;
     border-color: var(--neon-cyan) !important;
@@ -1034,7 +984,7 @@ button.pill:hover {
     font-style: italic;
 }
 
-/* Calendar navigation enhancements */
+/* Calendar navigation */
 .cal-nav:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -1054,8 +1004,8 @@ button.mini {
     padding: 10px 18px;
     cursor: pointer;
     font-size: 13px;
-    transition: all 0.4s ease;
     border: 1px solid rgba(0, 243, 255, 0.3);
+    transition: all 0.4s ease;
 }
 
 button.mini:hover {
@@ -1079,17 +1029,9 @@ footer {
     z-index: 10;
 }
 
-footer p {
-    text-shadow: 0 0 8px rgba(0, 243, 255, 0.5);
-}
-
 .footer-link {
     color: var(--neon-cyan);
     text-decoration: none;
-}
-
-.footer-link:hover {
-    text-decoration: underline;
 }
 
 /* Responsiveness */
@@ -1264,59 +1206,4 @@ footer p {
         padding: 16px;
         font-size: 14px;
     }
-}
-
-/* Animations */
-@keyframes neonPulse {
-
-    0%,
-    100% {
-        box-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan), 0 0 15px var(--neon-cyan);
-    }
-
-    50% {
-        box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 30px var(--neon-cyan);
-    }
-}
-
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.neon-glow {
-    animation: neonPulse 2s infinite;
-}
-
-.float {
-    animation: float 6s ease-in-out infinite;
 }
