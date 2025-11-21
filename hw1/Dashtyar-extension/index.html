@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Dashtyar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="neon-grid"></div>
+
+    <header>
+        <div class="header-left">
+            <h1 class="float">دَشتیار</h1>
+        </div>
+    </header>
+
+    <div class="layout">
+        <!-- LEFT COLUMN (Notes) -->
+        <aside class="col left">
+            <div class="card notes-card">
+                <div class="panel-top">
+                    <h4>یادداشت‌ها</h4>
+                </div>
+                <div class="panel-bottom">
+                    <div class="note-inputs">
+                        <input type="text" id="note-title" placeholder="عنوان یادداشت..." />
+                        <textarea id="note-content" placeholder="متن یادداشت..."></textarea>
+                    </div>
+                    <button id="save-note" class="pill primary">افزودن یادداشت</button>
+                </div>
+                <div class="notes-list" id="notes-list">
+                    <!-- Example note -->
+                    <div class="note-item" data-id="1">
+                        <div class="note-title">خوش آمدید</div>
+                        <div class="note-content">به دشتیار خوش آمدید! این یک یادداشت نمونه است.</div>
+                        <div class="note-actions">
+                            <button class="note-btn edit-btn" data-id="1">
+                                <i class="fas fa-edit"></i>
+                                ویرایش
+                            </button>
+                            <button class="note-btn delete-btn" data-id="1">
+                                <i class="fas fa-trash"></i>
+                                حذف
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CENTER COLUMN (Search and Quick Access) -->
+        <main class="col center">
+            <div class="search-container">
+                <div class="search-box-wrapper">
+                    <div class="search-box">
+                        <button class="icon-btn"><i class="fas fa-search"></i></button>
+                        <input id="search-input" placeholder="جستجو در گوگل..." />
+                    </div>
+                    <button class="search-btn pill primary">جستجو</button>
+                </div>
+            </div>
+
+            <div class="quick-access-container card">
+                <div class="quick-access-header">
+                    <h3 class="section-title">دسترسی سریع</h3>
+                </div>
+                <div class="quick-grid" id="quick-grid">
+                    <div class="quick-item">
+                        <span class="quick-icon"><i class="fas fa-globe"></i></span>
+                        <span class="quick-text">گوگل</span>
+                        <button class="remove-btn">×</button>
+                    </div>
+                    <div class="quick-item">
+                        <span class="quick-icon"><i class="fas fa-envelope"></i></span>
+                        <span class="quick-text">جیمیل</span>
+                        <button class="remove-btn">×</button>
+                    </div>
+                    <div class="quick-item">
+                        <span class="quick-icon"><i class="fas fa-paper-plane"></i></span>
+                        <span class="quick-text">تلگرام</span>
+                        <button class="remove-btn">×</button>
+                    </div>
+                    <div class="quick-item">
+                        <span class="quick-icon"><i class="fas fa-play-circle"></i></span>
+                        <span class="quick-text">یوتیوب</span>
+                        <button class="remove-btn">×</button>
+                    </div>
+                    <div class="quick-item">
+                        <span class="quick-icon"><i class="fas fa-cloud"></i></span>
+                        <span class="quick-text">درایو</span>
+                        <button class="remove-btn">×</button>
+                    </div>
+                    <div class="quick-item">
+                        <span class="quick-icon"><i class="fas fa-calendar"></i></span>
+                        <span class="quick-text">تقویم</span>
+                        <button class="remove-btn">×</button>
+                    </div>
+                    <!-- Add new link button -->
+                    <div class="quick-item add-new-btn" id="add-quick-link">
+                        <span class="quick-icon"><i class="fas fa-plus"></i></span>
+                        <span class="quick-text">افزودن</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- RIGHT COLUMN (Calendar) -->
+        <aside class="col right">
+            <div class="card calendar-card">
+                <div class="cal-header">
+                    <button id="cal-prev" class="cal-nav">‹</button>
+                    <div>
+                        <div id="cal-month" class="cal-month">آبان</div>
+                        <div id="cal-year" class="cal-year">2025</div>
+                    </div>
+                    <button id="cal-next" class="cal-nav">›</button>
+                </div>
+
+                <!-- Week days header -->
+                <div class="week-days">
+                    <div class="week-day">ش</div>
+                    <div class="week-day">ی</div>
+                    <div class="week-day">د</div>
+                    <div class="week-day">س</div>
+                    <div class="week-day">چ</div>
+                    <div class="week-day">پ</div>
+                    <div class="week-day">ج</div>
+                </div>
+
+                <!-- days grid -->
+                <div class="cal-grid" id="calendar-grid">
+                    <div class="cal-day">1</div>
+                    <div class="cal-day">2</div>
+                    <div class="cal-day">3</div>
+                    <div class="cal-day">4</div>
+                    <div class="cal-day">5</div>
+                    <div class="cal-day">6</div>
+                    <div class="cal-day">7</div>
+                    <div class="cal-day">8</div>
+                    <div class="cal-day">9</div>
+                    <div class="cal-day">10</div>
+                    <div class="cal-day">11</div>
+                    <div class="cal-day">12</div>
+                    <div class="cal-day">13</div>
+                    <div class="cal-day">14</div>
+                    <div class="cal-day">15</div>
+                    <div class="cal-day">16</div>
+                    <div class="cal-day">17</div>
+                    <div class="cal-day">18</div>
+                    <div class="cal-day">19</div>
+                    <div class="cal-day">20</div>
+                    <div class="cal-day">21</div>
+                    <div class="cal-day">22</div>
+                    <div class="cal-day">23</div>
+                    <div class="cal-day">24</div>
+                    <div class="cal-day">25</div>
+                    <div class="cal-day">26</div>
+                    <div class="cal-day">27</div>
+                    <div class="cal-day">28</div>
+                    <div class="cal-day">29</div>
+                    <div class="cal-day">30</div>
+                    <div class="cal-day neon-glow">31</div>
+                </div>
+
+                <div class="cal-actions">
+                    <button id="today-btn" class="mini">امروز</button>
+                    <button id="toggle-google" class="mini">میلادی</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modal for adding quick link -->
+    <div class="modal-overlay" id="add-link-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>افزودن لینک جدید</h3>
+                <button class="close-modal" id="close-modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="link-title">عنوان</label>
+                    <input type="text" id="link-title" placeholder="مثال: گیت‌هاب" />
+                </div>
+                <div class="form-group">
+                    <label for="link-url">لینک</label>
+                    <input type="url" id="link-url" placeholder="مثال: https://github.com" />
+                </div>
+                <div class="form-group">
+                    <label for="link-icon">آیکون (اختیاری)</label>
+                    <select id="link-icon">
+                        <option value="fas fa-globe">🌐 وبسایت</option>
+                        <option value="fas fa-envelope">📧 ایمیل</option>
+                        <option value="fas fa-paper-plane">✈️ پیام‌رسان</option>
+                        <option value="fas fa-play-circle">🎬 ویدیو</option>
+                        <option value="fas fa-cloud">☁️ فضای ابری</option>
+                        <option value="fas fa-calendar">📅 تقویم</option>
+                        <option value="fas fa-shopping-cart">🛒 خرید</option>
+                        <option value="fas fa-music">🎵 موزیک</option>
+                        <option value="fas fa-gamepad">🎮 بازی</option>
+                        <option value="fas fa-newspaper">📰 اخبار</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="pill primary" id="save-link">افزودن لینک</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for editing notes -->
+    <div class="modal-overlay" id="edit-note-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>ویرایش یادداشت</h3>
+                <button class="close-modal" id="close-edit-modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="edit-note-title">عنوان یادداشت</label>
+                    <input type="text" id="edit-note-title" placeholder="عنوان یادداشت..." />
+                </div>
+                <div class="form-group">
+                    <label for="edit-note-content">متن یادداشت</label>
+                    <textarea id="edit-note-content" placeholder="متن یادداشت..." rows="6"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="pill primary" id="update-note">ویرایش یادداشت</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for adding daily notes -->
+    <div class="modal-overlay" id="daily-note-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="daily-note-title">افزودن یادداشت برای <span id="selected-date-display"></span></h3>
+                <button class="close-modal" id="close-daily-modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="daily-note-title-input">عنوان یادداشت</label>
+                    <input type="text" id="daily-note-title-input" placeholder="عنوان یادداشت..." />
+                </div>
+                <div class="form-group">
+                    <label for="daily-note-content">متن یادداشت</label>
+                    <textarea id="daily-note-content" placeholder="متن یادداشت..." rows="6"></textarea>
+                </div>
+
+                <!-- Display existing notes for this date -->
+                <div class="existing-notes-section">
+                    <h4>یادداشت‌های این تاریخ</h4>
+                    <div class="existing-notes-list" id="existing-notes-list">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="pill primary" id="save-daily-note">افزودن یادداشت</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        طراحی و توسعه
+        <a href="https://github.com/melikaalizade" class="footer-link" target="_blank">ملیکا علیزاده</a>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
