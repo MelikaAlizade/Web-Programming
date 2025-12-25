@@ -29,46 +29,45 @@ class User(AbstractUser):
         return f"{self.username} ({self.role})"
 
 
-# class Ad(models.Model):
-#     class Status(models.TextChoices):
-#         OPEN = 'OPEN', 'Open'
-#         ASSIGNED = 'ASSIGNED', 'Assigned'
-#         COMPLETED = 'COMPLETED', 'Completed'
-#         CANCELED = 'CANCELED', 'Canceled'
+class Ad(models.Model):
+    class Status(models.TextChoices):
+        OPEN = 'OPEN', 'Open'
+        UNDER_REVIEW = 'UNDER_REVIEW', 'Under Review'
+        COMPLETED = 'COMPLETED', 'Completed'
 
-#     title = models.CharField(max_length=200)
-#     description = models.TextField()
-#     category = models.CharField(max_length=100)
-#     status = models.CharField(
-#         max_length=20,
-#         choices=Status.choices,
-#         default=Status.OPEN
-#     )
-#     creator = models.ForeignKey(
-#         User,
-#         on_delete=models.CASCADE,
-#         related_name='created_ads'
-#     )
-#     performer = models.ForeignKey(
-#         User,
-#         on_delete=models.SET_NULL,
-#         null=True,
-#         blank=True,
-#         related_name='performed_ads'
-#     )
-#     execution_time = models.DateTimeField(null=True, blank=True)
-#     execution_location = models.CharField(
-#         max_length=255, null=True, blank=True)
-#     work_completed_at = models.DateTimeField(null=True, blank=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    category = models.CharField(max_length=100)
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.OPEN
+    )
+    creator = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='created_ads'
+    )
+    performer = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='performed_ads'
+    )
+    execution_time = models.DateTimeField(null=True, blank=True)
+    execution_location = models.CharField(
+        max_length=255, null=True, blank=True)
+    work_completed_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-#     class Meta:
-#         db_table = 'ads'
-#         ordering = ['-created_at']
+    class Meta:
+        db_table = 'ads'
+        ordering = ['-created_at']
 
-#     def __str__(self):
-#         return f"{self.title} - {self.status}"
+    def __str__(self):
+        return f"{self.title} - {self.status}"
 
 
 # class Bid(models.Model):
