@@ -139,49 +139,49 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
-# # DRF Spectacular Settings for Swagger
-# SPECTACULAR_SETTINGS = {
-#     'TITLE': 'Achareh API',
-#     'DESCRIPTION': '''
-#     Backend API for Achareh - A service marketplace platform
+# DRF Spectacular Settings for Swagger
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Achareh API',
+    'DESCRIPTION': '''
+    Backend API for Achareh - A service marketplace platform
 
-#     ## Features
-#     - User registration and authentication with multiple login methods
-#     - Role-based access control (Customer, Contractor, Support, Admin)
-#     - Service request (Ad) management with status tracking
-#     - Bidding system for contractors
-#     - Work completion workflow
-#     - Rating and comment system
-#     - Support ticket system
-#     - Contractor scheduling with conflict detection
+    ## Features
+    - User registration and authentication with multiple login methods
+    - Role-based access control (Customer, Contractor, Support, Admin)
+    - Service request (Ad) management with status tracking
+    - Bidding system for contractors
+    - Work completion workflow
+    - Rating and comment system
+    - Support ticket system
+    - Contractor scheduling with conflict detection
 
-#     ## Authentication
-#     Use token authentication by including the header:
-#     `Authorization: Token <your-token-here>`
+    ## Authentication
+    Use token authentication by including the header:
+    `Authorization: Token <your-token-here>`
 
-#     Get your token by logging in via `/api/auth/login/`
-#     ''',
-#     'VERSION': '1.0.0',
-#     'SERVE_INCLUDE_SCHEMA': False,
-#     'COMPONENT_SPLIT_REQUEST': True,
-#     'SWAGGER_UI_SETTINGS': {
-#         'deepLinking': True,
-#         'persistAuthorization': True,
-#         'displayOperationId': True,
-#     },
-#     'SWAGGER_UI_FAVICON_HREF': None,
-#     'PREPROCESSING_HOOKS': [],
-#     'POSTPROCESSING_HOOKS': [],
-#     'SERVERS': [
-#         {'url': 'http://localhost:8000', 'description': 'Development server'},
-#     ],
-#     'TAGS': [
-#         {'name': 'Authentication', 'description': 'User registration and login'},
-#         {'name': 'Users', 'description': 'User management and profiles'},
-#         {'name': 'Ads', 'description': 'Service requests/advertisements'},
-#         {'name': 'Bids', 'description': 'Contractor bids on service requests'},
-#         {'name': 'Comments', 'description': 'Ratings and reviews'},
-#         {'name': 'Contractors', 'description': 'Contractor profiles and listings'},
-#         {'name': 'Tickets', 'description': 'Support tickets'},
-#     ],
-# }
+    Get your token by logging in via `/api/auth/login/`
+    ''',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'persistAuthorization': True,
+        'displayOperationId': True,
+    },
+    'SWAGGER_UI_FAVICON_HREF': None,
+    'PREPROCESSING_HOOKS': [],
+    'POSTPROCESSING_HOOKS': [],
+    'SERVERS': [
+        {'url': 'http://localhost:8000', 'description': 'Development server'},
+    ],
+    'TAGS': [
+        {'name': 'Authentication', 'description': 'User registration and login'},
+        {'name': 'Users', 'description': 'User management and profiles'},
+        {'name': 'Ads', 'description': 'Service requests/advertisements'},
+        {'name': 'Bids', 'description': 'Contractor bids on service requests'},
+        {'name': 'Comments', 'description': 'Ratings and reviews'},
+        {'name': 'Contractors', 'description': 'Contractor profiles and listings'},
+        {'name': 'Tickets', 'description': 'Support tickets'},
+    ],
+}
