@@ -32,8 +32,9 @@ class User(AbstractUser):
 class Ad(models.Model):
     class Status(models.TextChoices):
         OPEN = 'OPEN', 'Open'
-        UNDER_REVIEW = 'UNDER_REVIEW', 'Under Review'
+        ASSIGNED = 'ASSIGNED', 'Assigned'
         COMPLETED = 'COMPLETED', 'Completed'
+        CANCELED = 'CANCELED', 'Canceled'
 
     title = models.CharField(max_length=200)
     description = models.TextField()
