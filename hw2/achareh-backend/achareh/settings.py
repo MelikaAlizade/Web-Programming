@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-uo)kzqzmi%#iw4n=zs$oh+dkh5eq*hdk#q!92l+on3zdrsotev
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -62,6 +62,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -119,3 +120,68 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
+# # Default primary key field type
+# DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# # Custom User Model
+# AUTH_USER_MODEL = 'api.User'
+# # REST Framework Configuration
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.TokenAuthentication',
+#         'rest_framework.authentication.SessionAuthentication',
+#     ],
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#     ],
+#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+#     'PAGE_SIZE': 20,
+#     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+# }
+# # DRF Spectacular Settings for Swagger
+# SPECTACULAR_SETTINGS = {
+#     'TITLE': 'Achareh API',
+#     'DESCRIPTION': '''
+#     Backend API for Achareh - A service marketplace platform
+
+#     ## Features
+#     - User registration and authentication with multiple login methods
+#     - Role-based access control (Customer, Contractor, Support, Admin)
+#     - Service request (Ad) management with status tracking
+#     - Bidding system for contractors
+#     - Work completion workflow
+#     - Rating and comment system
+#     - Support ticket system
+#     - Contractor scheduling with conflict detection
+
+#     ## Authentication
+#     Use token authentication by including the header:
+#     `Authorization: Token <your-token-here>`
+
+#     Get your token by logging in via `/api/auth/login/`
+#     ''',
+#     'VERSION': '1.0.0',
+#     'SERVE_INCLUDE_SCHEMA': False,
+#     'COMPONENT_SPLIT_REQUEST': True,
+#     'SWAGGER_UI_SETTINGS': {
+#         'deepLinking': True,
+#         'persistAuthorization': True,
+#         'displayOperationId': True,
+#     },
+#     'SWAGGER_UI_FAVICON_HREF': None,
+#     'PREPROCESSING_HOOKS': [],
+#     'POSTPROCESSING_HOOKS': [],
+#     'SERVERS': [
+#         {'url': 'http://localhost:8000', 'description': 'Development server'},
+#     ],
+#     'TAGS': [
+#         {'name': 'Authentication', 'description': 'User registration and login'},
+#         {'name': 'Users', 'description': 'User management and profiles'},
+#         {'name': 'Ads', 'description': 'Service requests/advertisements'},
+#         {'name': 'Bids', 'description': 'Contractor bids on service requests'},
+#         {'name': 'Comments', 'description': 'Ratings and reviews'},
+#         {'name': 'Contractors', 'description': 'Contractor profiles and listings'},
+#         {'name': 'Tickets', 'description': 'Support tickets'},
+#     ],
+# }
