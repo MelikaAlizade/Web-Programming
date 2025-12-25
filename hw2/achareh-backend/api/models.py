@@ -122,47 +122,45 @@ class Comment(models.Model):
         return f"Comment by {self.customer.username} - Rating: {self.rating}"
 
 
-# class Ticket(models.Model):
-#     """Support ticket model"""
+class Ticket(models.Model):
+    class Status(models.TextChoices):
+        OPEN = 'OPEN', 'Open'
+        UNDER_REVIEW = 'UNDER_REVIEW', 'Under Review'
+        CLOSED = 'CLOSED', 'Closed'
 
-#     class Status(models.TextChoices):
-#         OPEN = 'OPEN', 'Open'
-#         UNDER_REVIEW = 'UNDER_REVIEW', 'Under Review'
-#         CLOSED = 'CLOSED', 'Closed'
+    title = models.CharField(max_length=200)
+    message = models.TextField()
+    creator = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='tickets'
+    )
+    ad = models.ForeignKey(
+        Ad,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='tickets'
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=Status.choices,
+        default=Status.OPEN
+    )
+    response = models.TextField(blank=True)
+    responded_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='responded_tickets'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-#     title = models.CharField(max_length=200)
-#     message = models.TextField()
-#     creator = models.ForeignKey(
-#         User,
-#         on_delete=models.CASCADE,
-#         related_name='tickets'
-#     )
-#     ad = models.ForeignKey(
-#         Ad,
-#         on_delete=models.SET_NULL,
-#         null=True,
-#         blank=True,
-#         related_name='tickets'
-#     )
-#     status = models.CharField(
-#         max_length=20,
-#         choices=Status.choices,
-#         default=Status.OPEN
-#     )
-#     response = models.TextField(blank=True)
-#     responded_by = models.ForeignKey(
-#         User,
-#         on_delete=models.SET_NULL,
-#         null=True,
-#         blank=True,
-#         related_name='responded_tickets'
-#     )
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
+    class Meta:
+        db_table = 'tickets'
+        ordering = ['-created_at']
 
-#     class Meta:
-#         db_table = 'tickets'
-#         ordering = ['-created_at']
-
-#     def __str__(self):
-#         return f"Ticket #{self.id} - {self.title}"
+    def __str__(self):
+        return f"Ticket #{self.id} - {self.title}"
