@@ -70,58 +70,56 @@ class Ad(models.Model):
         return f"{self.title} - {self.status}"
 
 
-# class Bid(models.Model):
-#     ad = models.ForeignKey(Ad, on_delete=models.CASCADE, related_name='bids')
-#     contractor = models.ForeignKey(
-#         User,
-#         on_delete=models.CASCADE,
-#         related_name='bids'
-#     )
-#     proposed_price = models.DecimalField(
-#         max_digits=10,
-#         decimal_places=2,
-#         null=True,
-#         blank=True
-#     )
-#     message = models.TextField(blank=True)
-#     created_at = models.DateTimeField(auto_now_add=True)
+class Bid(models.Model):
+    ad = models.ForeignKey(Ad, on_delete=models.CASCADE, related_name='bids')
+    contractor = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='bids'
+    )
+    proposed_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+    message = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-#     class Meta:
-#         db_table = 'bids'
-#         unique_together = ['ad', 'contractor']
-#         ordering = ['-created_at']
+    class Meta:
+        db_table = 'bids'
+        unique_together = ['ad', 'contractor']
+        ordering = ['-created_at']
 
-#     def __str__(self):
-#         return f"Bid by {self.contractor.username} for {self.ad.title}"
+    def __str__(self):
+        return f"Bid by {self.contractor.username} for {self.ad.title}"
 
 
-# class Comment(models.Model):
-#     """Customer comment and rating for contractor work"""
+class Comment(models.Model):
+    ad = models.ForeignKey(Ad, on_delete=models.CASCADE,
+                           related_name='comments')
+    performer = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='received_comments'
+    )
+    customer = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='given_comments'
+    )
+    text = models.TextField()
+    rating = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
 
-#     ad = models.ForeignKey(Ad, on_delete=models.CASCADE,
-#                            related_name='comments')
-#     performer = models.ForeignKey(
-#         User,
-#         on_delete=models.CASCADE,
-#         related_name='received_comments'
-#     )
-#     customer = models.ForeignKey(
-#         User,
-#         on_delete=models.CASCADE,
-#         related_name='given_comments'
-#     )
-#     text = models.TextField()
-#     rating = models.IntegerField(
-#         validators=[MinValueValidator(1), MaxValueValidator(5)]
-#     )
-#     created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        db_table = 'comments'
+        ordering = ['-created_at']
 
-#     class Meta:
-#         db_table = 'comments'
-#         ordering = ['-created_at']
-
-#     def __str__(self):
-#         return f"Comment by {self.customer.username} - Rating: {self.rating}"
+    def __str__(self):
+        return f"Comment by {self.customer.username} - Rating: {self.rating}"
 
 
 # class Ticket(models.Model):
