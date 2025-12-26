@@ -22,21 +22,16 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
-        login = data.get('login')
-        password = data.get('password')
-        user = None
-        if '@' in login:
-            user = User.objects.filter(email=login).first()
-        elif login.isdigit():
-            user = User.objects.filter(phone_number=login).first()
-        else:
-            user = User.objects.filter(username=login).first()
+        login = data['login']
+        password = data['password']
 
-        if user and user.check_password(password):
-            data['user'] = user
-            return data
+        user = authenticate(username=login, password=password)
 
-        raise serializers.ValidationError("Invalid credentials")
+        if not user:
+            raise serializers.ValidationError("Invalid credentials")
+
+        data['user'] = user
+        return data
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -45,6 +40,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'phone_number',
                   'role', 'first_name', 'last_name']
         read_only_fields = ['role']
+
+
+class LoginResponseSerializer(serializers.Serializer):
+    token = serializers.CharField()
+    user = UserSerializer()
 
 
 class ContractorProfileSerializer(serializers.ModelSerializer):

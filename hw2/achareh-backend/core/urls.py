@@ -1,15 +1,10 @@
 from django.urls import path
-from .views import (
-    RegisterView, LoginView, ProfileView, ChangeUserRoleView,
-    AdListCreateView, AdDetailView, AssignContractorView, CancelAdView,
-    CompleteWorkView, ConfirmCompletionView, SetScheduleView,
-    ContractorScheduleView, BidListCreateView, BidDetailView, AdBidsView,
-    CommentListCreateView, ContractorCommentsView, ContractorProfileView,
-    ContractorListView, CustomerProfileAdsView, ContractorPerformedAdsView,
-    TicketListCreateView, TicketDetailView, RespondToTicketView
-)
+from .views import *
 
+# URLConf
 urlpatterns = [
+    # path('hello/', views.say_hello),
+    # path('services/', say_hello),
     # Authentication
     path('auth/register/', RegisterView.as_view(), name='register'),
     path('auth/login/', LoginView.as_view(), name='login'),
@@ -58,4 +53,5 @@ urlpatterns = [
     path('tickets/<int:pk>/', TicketDetailView.as_view(), name='ticket-detail'),
     path('tickets/<int:ticket_id>/respond/',
          RespondToTicketView.as_view(), name='ticket-respond'),
+
 ]

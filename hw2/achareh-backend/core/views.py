@@ -1,32 +1,35 @@
-from django.shortcuts import render
-from rest_framework import generics, status, permissions
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.authtoken.models import Token
-from rest_framework import serializers
-from django.db.models import Avg, Count, Q
-from django.shortcuts import get_object_or_404
-from django.utils import timezone
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
-from drf_spectacular.types import OpenApiTypes
+from .permissions import *
+from .serializers import *
 from .models import User, Ad, Bid, Comment, Ticket
-from .serializers import (
-    UserRegistrationSerializer, LoginSerializer, UserSerializer,
-    AdSerializer, AdCreateSerializer, BidSerializer, BidCreateSerializer,
-    CommentSerializer, CommentCreateSerializer, TicketSerializer,
-    TicketCreateSerializer, TicketResponseSerializer, AssignContractorSerializer,
-    ScheduleSerializer, ContractorProfileSerializer, ContractorListSerializer
-)
-from .permissions import (
-    CanCreateAd, CanModifyAd, CanCreateBid, CanModifyBid,
-    CanCreateComment, CanRespondToTicket, CanModifyTicket,
-    CanChangeUserRole, IsSupport, IsAdmin
-)
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
+from django.utils import timezone
+from django.shortcuts import get_object_or_404
+from django.db.models import Avg, Count, Q
+from rest_framework import serializers
+from rest_framework.authtoken.models import Token
+from rest_framework.views import APIView
+from rest_framework import generics, status, permissions
+from django.shortcuts import render
+from django.http import HttpResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+# Create your views here.
+
+
+@api_view(['GET'])
+def say_hello(request):
+    # return HttpResponse('Hello melika')
+    # return render(request, 'hello.html', {'name': 'Mosh'})
+    return Response({"message": "Services API works"})
+
 
 # Create your views here.
 
 
 @extend_schema(
+    tags=['Authentication'],
     request=UserRegistrationSerializer,
     responses={201: UserSerializer},
     examples=[
@@ -61,8 +64,9 @@ class RegisterView(generics.CreateAPIView):
 
 
 @extend_schema(
+    tags=['Authentication'],
     request=LoginSerializer,
-    responses={200: {'token': 'string', 'user': UserSerializer}},
+    responses={200: LoginResponseSerializer},
     examples=[
         OpenApiExample(
             'Login with Username',
@@ -91,7 +95,7 @@ class LoginView(APIView):
         })
 
 
-@extend_schema(responses={200: UserSerializer})
+@extend_schema(tags=['Authentication'], responses={200: UserSerializer})
 class ProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -101,6 +105,7 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
 
 @extend_schema(
+    tags=['Users'],
     parameters=[
         OpenApiParameter('user_id', OpenApiTypes.INT, OpenApiParameter.PATH)
     ],
@@ -131,20 +136,20 @@ class ChangeUserRoleView(APIView):
         return Response(UserSerializer(user).data)
 
 
-@extend_schema(
-    request=AdCreateSerializer,
-    responses={201: AdSerializer},
-    examples=[
-        OpenApiExample(
-            'Create Ad Example',
-            value={
-                'title': 'Need a plumber',
-                'description': 'Kitchen sink is leaking',
-                'category': 'Plumbing'
-            },
-            request_only=True
-        )
-    ]
+@extend_schema(tags=['Ads'],
+               request=AdCreateSerializer,
+               responses={201: AdSerializer},
+               examples=[
+    OpenApiExample(
+        'Create Ad Example',
+        value={
+            'title': 'Need a plumber',
+            'description': 'Kitchen sink is leaking',
+            'category': 'Plumbing'
+        },
+        request_only=True
+    )
+]
 )
 class AdListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated, CanCreateAd]
@@ -177,10 +182,10 @@ class AdListCreateView(generics.ListCreateAPIView):
         serializer.save(creator=self.request.user)
 
 
-@extend_schema(
-    responses={200: AdSerializer},
-    request=AdSerializer
-)
+@extend_schema(tags=['Ads'],
+               responses={200: AdSerializer},
+               request=AdSerializer
+               )
 class AdDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AdSerializer
     permission_classes = [permissions.IsAuthenticated, CanModifyAd]
@@ -197,10 +202,10 @@ class AdDetailView(generics.RetrieveUpdateDestroyAPIView):
         return queryset
 
 
-@extend_schema(
-    request=AssignContractorSerializer,
-    responses={200: AdSerializer}
-)
+@extend_schema(tags=['Ads'],
+               request=AssignContractorSerializer,
+               responses={200: AdSerializer}
+               )
 class AssignContractorView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -236,7 +241,7 @@ class AssignContractorView(APIView):
         return Response(AdSerializer(ad).data)
 
 
-@extend_schema(responses={200: AdSerializer})
+@extend_schema(tags=['Ads'], responses={200: AdSerializer})
 class CancelAdView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -261,7 +266,7 @@ class CancelAdView(APIView):
         return Response(AdSerializer(ad).data)
 
 
-@extend_schema(responses={200: AdSerializer})
+@extend_schema(tags=['Ads'], responses={200: AdSerializer})
 class CompleteWorkView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -286,7 +291,7 @@ class CompleteWorkView(APIView):
         return Response(AdSerializer(ad).data)
 
 
-@extend_schema(responses={200: AdSerializer})
+@extend_schema(tags=['Ads'], responses={200: AdSerializer})
 class ConfirmCompletionView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -311,10 +316,10 @@ class ConfirmCompletionView(APIView):
         return Response(AdSerializer(ad).data)
 
 
-@extend_schema(
-    request=ScheduleSerializer,
-    responses={200: AdSerializer}
-)
+@extend_schema(tags=['Ads'],
+               request=ScheduleSerializer,
+               responses={200: AdSerializer}
+               )
 class SetScheduleView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -353,11 +358,11 @@ class SetScheduleView(APIView):
         return Response(AdSerializer(ad).data)
 
 
-@extend_schema(
-    parameters=[
-        OpenApiParameter('date', OpenApiTypes.DATE,
-                         description='Filter by date (YYYY-MM-DD)')
-    ],
+@extend_schema(tags=['Contractors'],
+               parameters=[
+    OpenApiParameter('date', OpenApiTypes.DATE,
+                     description='Filter by date (YYYY-MM-DD)')
+],
     responses={200: AdSerializer(many=True)}
 )
 class ContractorScheduleView(generics.ListAPIView):
@@ -378,10 +383,10 @@ class ContractorScheduleView(generics.ListAPIView):
         return queryset
 
 
-@extend_schema(
-    request=BidCreateSerializer,
-    responses={201: BidSerializer}
-)
+@extend_schema(tags=['Bids'],
+               request=BidCreateSerializer,
+               responses={201: BidSerializer}
+               )
 class BidListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated, CanCreateBid]
 
@@ -407,7 +412,7 @@ class BidListCreateView(generics.ListCreateAPIView):
         serializer.save(contractor=self.request.user)
 
 
-@extend_schema(responses={200: BidSerializer})
+@extend_schema(tags=['Bids'], responses={200: BidSerializer})
 class BidDetailView(generics.RetrieveDestroyAPIView):
     serializer_class = BidSerializer
     permission_classes = [permissions.IsAuthenticated, CanModifyBid]
@@ -416,7 +421,7 @@ class BidDetailView(generics.RetrieveDestroyAPIView):
         return Bid.objects.filter(contractor=self.request.user)
 
 
-@extend_schema(responses={200: BidSerializer(many=True)})
+@extend_schema(tags=['Ads'], responses={200: BidSerializer(many=True)})
 class AdBidsView(generics.ListAPIView):
     serializer_class = BidSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -431,10 +436,10 @@ class AdBidsView(generics.ListAPIView):
         return ad.bids.all()
 
 
-@extend_schema(
-    request=CommentCreateSerializer,
-    responses={201: CommentSerializer}
-)
+@extend_schema(tags=['Comments'],
+               request=CommentCreateSerializer,
+               responses={201: CommentSerializer}
+               )
 class CommentListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated, CanCreateComment]
 
@@ -465,12 +470,12 @@ class CommentListCreateView(generics.ListCreateAPIView):
         )
 
 
-@extend_schema(
-    parameters=[
-        OpenApiParameter('contractor_id', OpenApiTypes.INT),
-        OpenApiParameter('rating', OpenApiTypes.INT,
-                         description='Filter by rating (1-5)'),
-    ],
+@extend_schema(tags=['Comments'],
+               parameters=[
+    OpenApiParameter('contractor_id', OpenApiTypes.INT),
+    OpenApiParameter('rating', OpenApiTypes.INT,
+                     description='Filter by rating (1-5)'),
+],
     responses={200: CommentSerializer(many=True)}
 )
 class ContractorCommentsView(generics.ListAPIView):
@@ -492,22 +497,22 @@ class ContractorCommentsView(generics.ListAPIView):
         return queryset
 
 
-@extend_schema(responses={200: ContractorProfileSerializer})
+@extend_schema(tags=['Contractors'], responses={200: ContractorProfileSerializer})
 class ContractorProfileView(generics.RetrieveAPIView):
     serializer_class = ContractorProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
     queryset = User.objects.filter(role=User.Role.CONTRACTOR)
 
 
-@extend_schema(
-    parameters=[
-        OpenApiParameter('min_rating', OpenApiTypes.FLOAT,
-                         description='Minimum average rating'),
-        OpenApiParameter('min_comments', OpenApiTypes.INT,
-                         description='Minimum number of comments'),
-        OpenApiParameter('ordering', OpenApiTypes.STR,
-                         description='Order by: rating, -rating, comments, -comments'),
-    ],
+@extend_schema(tags=['Contractors'],
+               parameters=[
+    OpenApiParameter('min_rating', OpenApiTypes.FLOAT,
+                     description='Minimum average rating'),
+    OpenApiParameter('min_comments', OpenApiTypes.INT,
+                     description='Minimum number of comments'),
+    OpenApiParameter('ordering', OpenApiTypes.STR,
+                     description='Order by: rating, -rating, comments, -comments'),
+],
     responses={200: ContractorListSerializer(many=True)}
 )
 class ContractorListView(generics.ListAPIView):
@@ -541,7 +546,7 @@ class ContractorListView(generics.ListAPIView):
         return queryset
 
 
-@extend_schema(responses={200: AdSerializer(many=True)})
+@extend_schema(tags=['Users'], responses={200: AdSerializer(many=True)})
 class CustomerProfileAdsView(generics.ListAPIView):
     serializer_class = AdSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -551,7 +556,7 @@ class CustomerProfileAdsView(generics.ListAPIView):
         return Ad.objects.filter(creator_id=user_id)
 
 
-@extend_schema(responses={200: AdSerializer(many=True)})
+@extend_schema(tags=['Users'], responses={200: AdSerializer(many=True)})
 class ContractorPerformedAdsView(generics.ListAPIView):
     serializer_class = AdSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -561,10 +566,10 @@ class ContractorPerformedAdsView(generics.ListAPIView):
         return Ad.objects.filter(performer_id=user_id)
 
 
-@extend_schema(
-    request=TicketCreateSerializer,
-    responses={201: TicketSerializer}
-)
+@extend_schema(tags=['Tickets'],
+               request=TicketCreateSerializer,
+               responses={201: TicketSerializer}
+               )
 class TicketListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -583,10 +588,10 @@ class TicketListCreateView(generics.ListCreateAPIView):
         serializer.save(creator=self.request.user)
 
 
-@extend_schema(
-    responses={200: TicketSerializer},
-    request=TicketSerializer
-)
+@extend_schema(tags=['Tickets'],
+               responses={200: TicketSerializer},
+               request=TicketSerializer
+               )
 class TicketDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TicketSerializer
     permission_classes = [permissions.IsAuthenticated, CanModifyTicket]
@@ -598,10 +603,10 @@ class TicketDetailView(generics.RetrieveUpdateDestroyAPIView):
         return Ticket.objects.filter(creator=user)
 
 
-@extend_schema(
-    request=TicketResponseSerializer,
-    responses={200: TicketSerializer}
-)
+@extend_schema(tags=['Tickets'],
+               request=TicketResponseSerializer,
+               responses={200: TicketSerializer}
+               )
 class RespondToTicketView(APIView):
     permission_classes = [permissions.IsAuthenticated, CanRespondToTicket]
 
