@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
+from django.db.models import Q
 from django.db.models import Avg, Count
 from .models import User, Ad, Bid, Comment, Ticket
 
@@ -25,13 +26,16 @@ class LoginSerializer(serializers.Serializer):
         login = data['login']
         password = data['password']
 
-        user = authenticate(username=login, password=password)
+        user_obj = User.objects.filter(Q(username=login) | Q(
+            email=login) | Q(phone_number=login)).first()
 
-        if not user:
-            raise serializers.ValidationError("Invalid credentials")
+        if user_obj:
+            user = authenticate(username=user_obj.username, password=password)
+            if user:
+                data['user'] = user
+                return data
 
-        data['user'] = user
-        return data
+        raise serializers.ValidationError("Invalid credentials")
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -96,7 +100,7 @@ class AdSerializer(serializers.ModelSerializer):
 class AdCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ad
-        fields = ['title', 'description', 'category']
+        fields = ['id', 'title', 'description', 'category']
 
 
 class BidSerializer(serializers.ModelSerializer):

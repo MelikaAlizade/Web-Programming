@@ -77,6 +77,11 @@ class RegisterView(generics.CreateAPIView):
             'Login with Email',
             value={'login': 'john@example.com', 'password': 'securePass123'},
             request_only=True
+        ),
+        OpenApiExample(
+            'Login with Phone number',
+            value={'login': '09111111111', 'password': 'securePass123'},
+            request_only=True
         )
     ]
 )
@@ -143,6 +148,7 @@ class ChangeUserRoleView(APIView):
     OpenApiExample(
         'Create Ad Example',
         value={
+            'id': '1',
             'title': 'Need a plumber',
             'description': 'Kitchen sink is leaking',
             'category': 'Plumbing'
@@ -189,6 +195,7 @@ class AdListCreateView(generics.ListCreateAPIView):
 class AdDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = AdSerializer
     permission_classes = [permissions.IsAuthenticated, CanModifyAd]
+    http_method_names = ['get', 'put', 'patch']
 
     def get_queryset(self):
         user = self.request.user
@@ -340,7 +347,8 @@ class SetScheduleView(APIView):
         overlapping = Ad.objects.filter(
             performer=request.user,
             status=Ad.Status.ASSIGNED,
-            execution_time__isnull=False
+            execution_time__isnull=False,
+            execution_time=execution_time
         ).exclude(id=ad_id).filter(
             execution_time__date=execution_time.date()
         )
@@ -405,6 +413,9 @@ class BidListCreateView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         ad = serializer.validated_data['ad']
+
+        if ad.creator == self.request.user:
+            raise serializers.ValidationError("You cannot bid on your own ad.")
 
         if ad.status != Ad.Status.OPEN:
             raise serializers.ValidationError("Ad is not open for bidding")
@@ -620,6 +631,11 @@ class RespondToTicketView(APIView):
         ticket.responded_by = request.user
         ticket.status = serializer.validated_data.get(
             'status', Ticket.Status.CLOSED)
+        if ticket.creator == request.user:
+            return Response(
+                {'error': 'Cannot respond to your own ticket'},
+                status=status.HTTP_403_FORBIDDEN
+            )
         ticket.save()
 
         return Response(TicketSerializer(ticket).data)
